@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知心的软考背诵本 · 软件设计师知识点整理</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📖</text></svg>">
+<style>
+:root{
+  --bg:#fdf6ee; --bg2:#fffaf3; --card:#fffdfa;
+  --ink:#4a3b32; --ink-soft:#8a7466; --line:#e8d9c9;
+  --accent:#e2607a; --accent-soft:#fbe3ea;
+  --gold:#e8a33d; --gold-soft:#fdf1da;
+  --green:#3fa97b; --green-soft:#e3f4ec;
+  --radius:18px;
+  --shadow:0 4px 20px rgba(160,110,70,.10);
+  --shadow-hover:0 10px 30px rgba(160,110,70,.18);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(900px 500px at 12% -6%, #ffe9d6 0%, transparent 55%),
+    radial-gradient(900px 600px at 105% 8%, #ffe0e8 0%, transparent 50%),
+    linear-gradient(var(--bg), var(--bg2));
+  background-attachment:fixed;
+  min-height:100vh;
+  line-height:1.75;
+}
+::selection{background:var(--accent-soft)}
+.hearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.hearts span{position:absolute;bottom:-8vh;opacity:0;animation:floatUp linear infinite;filter:blur(.3px)}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(.6) rotate(0deg);opacity:0}
+  12%{opacity:.5}
+  85%{opacity:.35}
+  100%{transform:translateY(-115vh) scale(1) rotate(18deg);opacity:0}
+}
+.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:26px 18px 90px}
+header.hero{
+  text-align:center;padding:44px 22px 30px;margin-bottom:26px;
+  background:linear-gradient(160deg,#fff 0%,#fff6ec 100%);
+  border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);
+  position:relative;overflow:hidden;
+}
+header.hero::before,header.hero::after{content:"";position:absolute;border-radius:50%;filter:blur(2px);opacity:.5}
+header.hero::before{width:180px;height:180px;background:#ffd9e3;top:-70px;left:-50px}
+header.hero::after{width:200px;height:200px;background:#ffe7c8;bottom:-90px;right:-60px}
+.hero-inner{position:relative;z-index:2}
+.hero h1{font-size:clamp(26px,5vw,40px);letter-spacing:1px}
+.hero h1 .grad{background:linear-gradient(90deg,var(--accent),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{margin-top:10px;color:var(--ink-soft);font-size:15px}
+.badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 16px;font-size:13.5px;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(160,110,70,.06)}
+.badge b{color:var(--accent);font-size:16px}
+.badge.hot{background:var(--accent-soft);border-color:#f3c3d1;color:#b03a55}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.btn{cursor:pointer;border:none;border-radius:14px;font-size:14.5px;font-weight:600;padding:11px 20px;transition:.2s;box-shadow:0 3px 10px rgba(160,110,70,.10);display:inline-flex;align-items:center;gap:7px;font-family:inherit}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn-accent{background:linear-gradient(135deg,var(--accent),#ef8aa0);color:#fff}
+.btn-accent:hover{box-shadow:0 6px 18px rgba(226,96,122,.4)}
+.btn-soft{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn-soft:hover{box-shadow:var(--shadow-hover)}
+.btn.on{background:linear-gradient(135deg,var(--gold),#f2c069);color:#fff}
+.search{margin:0 auto 26px;max-width:520px;position:relative}
+.search input{width:100%;padding:13px 20px 13px 46px;font-size:15px;border-radius:999px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow);outline:none;font-family:inherit;color:var(--ink);transition:.2s}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.search .icon{position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.6}
+nav.toc{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-bottom:34px}
+nav.toc a{text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:9px 15px;font-size:13.8px;font-weight:600;transition:.2s;box-shadow:0 2px 8px rgba(160,110,70,.06)}
+nav.toc a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+nav.toc a .n{display:inline-block;min-width:20px;text-align:center;background:var(--accent-soft);color:var(--accent);border-radius:7px;font-size:12px;margin-left:6px;padding:0 5px}
+section.group{margin-bottom:36px}
+.group-head{display:flex;align-items:center;gap:12px;margin:0 4px 16px}
+.group-head .emoji{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:linear-gradient(135deg,#fff,#ffeeda);border:1px solid var(--line);box-shadow:var(--shadow)}
+.group-head h2{font-size:21px;letter-spacing:.5px}
+.group-head .cnt{font-size:12.5px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+.group-head .line{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px 16px;margin-bottom:14px;box-shadow:var(--shadow);transition:.2s;position:relative}
+.card:hover{box-shadow:var(--shadow-hover)}
+.q-top{display:flex;align-items:flex-start;gap:10px}
+.q-num{flex:none;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:8px;padding:3px 8px;margin-top:3px;min-width:34px;text-align:center}
+.q-text{flex:1;font-size:15.5px}
+.q-actions{display:flex;gap:6px;flex:none;margin-top:2px}
+.mini{cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:12px;padding:4px 9px;color:var(--ink-soft);transition:.15s;font-family:inherit}
+.mini:hover{border-color:var(--gold);color:var(--gold)}
+.mini.recite.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.blank{display:inline;position:relative;font-weight:700;color:#c2435f;padding:0 5px;white-space:pre-wrap;border-bottom:2px solid var(--accent);background:linear-gradient(180deg,transparent 62%,#ffe1ea 62%);transition:.2s;border-radius:3px}
+.blank:hover{background:linear-gradient(180deg,transparent 50%,#ffd3e0 50%)}
+body.recite .blank{color:transparent;background:linear-gradient(180deg,transparent 62%,#f3e6da 62%)}
+body.recite .blank:hover{color:#c2435f}
+.card.hidden-by-me .blank{color:transparent;background:linear-gradient(180deg,transparent 62%,#f3e6da 62%)}
+.card.hidden-by-me .blank:hover{color:#c2435f}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 0 44px}
+.tag{font-size:11.5px;color:var(--ink-soft);background:#f7efe6;border-radius:7px;padding:2px 9px}
+.ansline{margin:10px 0 0 44px;font-size:13px;color:var(--ink-soft);border-left:3px solid var(--line);padding-left:10px}
+.ansline .ok{color:var(--green);font-weight:700}
+details.ref{margin:11px 0 0 44px;font-size:13.5px;color:var(--ink-soft)}
+details.ref summary{cursor:pointer;color:var(--gold);font-weight:600;font-size:13.5px;list-style:none;display:inline-flex;align-items:center;gap:5px}
+details.ref summary::before{content:"💡"}
+details.ref summary::-webkit-details-marker{display:none}
+details.ref[open] summary{margin-bottom:5px}
+details.ref .ref-body{background:var(--gold-soft);border-radius:11px;padding:10px 14px;margin-top:6px;border:1px dashed #ecc98f}
+mark.hl{background:linear-gradient(180deg,transparent 40%,#ffe08a 40%);color:inherit;border-radius:2px;padding:0 1px}
+mark.hl.pink{background:linear-gradient(180deg,transparent 40%,#ffc0d4 40%)}
+mark.hl.green{background:linear-gradient(180deg,transparent 40%,#b8ecd4 40%)}
+footer{text-align:center;color:var(--ink-soft);font-size:13px;margin-top:50px;line-height:2}
+footer .heart{color:var(--accent)}
+.fab-top{position:fixed;right:20px;bottom:24px;z-index:50;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#ef8aa0);color:#fff;border:none;font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(226,96,122,.45);transition:.2s;display:grid;place-items:center}
+.fab-top:hover{transform:translateY(-3px)}
+.empty{display:none;text-align:center;color:var(--ink-soft);padding:60px 0;font-size:15px}
+.modal{position:fixed;inset:0;background:rgba(60,40,30,.4);display:none;place-items:center;z-index:99;backdrop-filter:blur(3px)}
+.modal.show{display:grid}
+.modal .box{background:#fff;border-radius:22px;padding:28px 26px;max-width:460px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.25);max-height:80vh;overflow:auto}
+.modal h3{font-size:18px;margin-bottom:6px}
+.modal .tip{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+.check-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}
+.day{aspect-ratio:1;border-radius:11px;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;color:var(--ink-soft);cursor:pointer;transition:.15s;background:#fff;user-select:none}
+.day:hover{border-color:var(--accent)}
+.day.done{background:linear-gradient(135deg,var(--accent),#ef8aa0);color:#fff;border-color:transparent;font-weight:700}
+.day.today{outline:2px solid var(--gold);outline-offset:1px}
+.legend{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12.5px;color:var(--ink-soft)}
+@media (max-width:640px){
+  .q-actions{flex-direction:column}
+  .tags,.ansline,details.ref{margin-left:0}
+  .q-num{min-width:28px}
+}
+</style>
+</head>
+<body>
+
+<div class="hearts" id="hearts" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>📖 知心的<span class="grad">软考背诵本</span></h1>
+      <p class="sub">软件设计师 · 第一期已更新 · 63 张截图整理成「横线上填好答案」的陈述句，帮你一天一看、轻松记忆 💪</p>
+      <div class="badges">
+        <span class="badge hot">⏳ 距离考试（<span id="examDate">2026-10-24</span>）还有 <b id="dDay">--</b> 天</span>
+        <span class="badge">📝 共 <b id="totalQ">0</b> 条知识点</span>
+        <span class="badge">📚 <b id="totalG">0</b> 个板块</span>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-accent" id="btnRecite">🙈 背诵模式：关</button>
+        <button class="btn btn-soft" id="btnExpand">📖 全部展开解析</button>
+        <button class="btn btn-soft" id="btnCheck">📅 今日打卡</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="search">
+    <span class="icon">🔍</span>
+    <input id="search" type="text" placeholder="搜索知识点，比如：关键路径 / 设计模式 / 补码 / 分治 …">
+  </div>
+
+  <nav class="toc" id="toc"></nav>
+  <main id="content"></main>
+  <div class="empty" id="empty">没有找到匹配的知识点，换个关键词试试～</div>
+
+  <footer>
+    <div>给坤的专属复习资料 · 考点都在横线上，多看几遍就记住啦</div>
+    <div>Made with <span class="heart">❤</span> by 知心 · 祝坤 10.24 软考一次过！🎓</div>
+  </footer>
+</div>
+
+<div class="modal" id="checkModal">
+  <div class="box">
+    <h3>📅 每日背诵打卡</h3>
+    <p class="tip">点击格子打卡 / 取消，金圈是今天。坚持到考试那天，你就赢了 ✨</p>
+    <div class="check-grid" id="checkGrid"></div>
+    <div class="legend">
+      <span>已打卡 <b id="doneCount">0</b> 天</span>
+      <button class="btn btn-soft" style="padding:7px 16px;font-size:13px" id="btnCloseModal">关闭</button>
+    </div>
+  </div>
+</div>
+
+<button class="fab-top" id="fabTop" title="回到顶部">↑</button>
+
+<script>
+/* 内容数据：q=填好答案的陈述句，⟦答案⟧渲染为带横线样式；b=背诵模式遮住的词；ref=参考解析 */
+window.EXAM_DATE='2026-10-24';
+window.DATA=[
+{ id:'g1', name:'计算机组成原理', icon:'🖥️', questions:[
+  { q:'对于定点纯小数的数据编码，只有 ⟦补码⟧ 能表示 -1（原码和反码都不能表示 -1）。',
+    b:['补码'], tags:['码制'], ref:'定点纯小数：原码、反码的表示范围都达不到 -1，只有补码能表示 -1。' },
+  { q:'CPU 中各寄存器的作用：⟦指令寄存器⟧ 存储即将执行的指令；⟦状态条件寄存器⟧ 存状态标志与控制标志；⟦程序计数器⟧ 存储下一条要执行指令的地址；⟦主存地址寄存器⟧ 保存当前 CPU 访问内存单元的地址。',
+    b:['指令寄存器','状态条件寄存器','程序计数器','主存地址寄存器'], tags:['CPU','寄存器'], ref:'本题考查 CPU 组成，四个寄存器分工要分清。' },
+  { q:'硬盘所属的存储类别是 ⟦辅存⟧。层次化存储体系：CPU 对应 ⟦寄存器⟧，Cache 对应 ⟦缓存⟧，主存对应 ⟦DRAM⟧，辅存对应 ⟦硬盘、光盘⟧ 等。',
+    b:['辅存','寄存器','缓存','DRAM','硬盘、光盘'], tags:['存储体系'], ref:'由快到慢、由贵到便宜：寄存器→缓存→主存→辅存。' },
+  { q:'若浮点数尾数用补码表示，则判断运算结果是否为规格化的方法是：⟦数符与尾数小数点后第一位数字相异⟧ 为规格化表示。',
+    b:['数符与尾数小数点后第一位数字相异'], tags:['浮点数','规格化'], ref:'补码尾数规格化：符号位与最高数值位相反（相异）才是规格化。' },
+  { q:'CRC 循环冗余校验码的编码方法是：在 ⟦k 位信息位之后拼接 r 位校验位⟧；奇偶校验码是由若干位有效信息（如一个字节）再加上 ⟦一个二进制位（校验位）⟧ 组成。',
+    b:['k 位信息位之后拼接 r 位校验位','一个二进制位（校验位）'], tags:['校验码'], ref:'本题考查校验码基础：CRC 是"信息位后拼接校验位"，奇偶校验是"加一位校验位"。' },
+  { q:'计算机中实现算术逻辑运算的 ALU，其加法器采用 ⟦补码运算的二进制加法器⟧。',
+    b:['补码运算的二进制加法器'], tags:['运算器'], ref:'计算机统一用补码进行加减运算，减法也转化为补码加法。' },
+  { q:'某系统由两个可靠性为 R 的部件并联后再与两个可靠性为 R 的部件串联，其可靠度为 ⟦R·(1-(1-R)²)·R⟧。',
+    b:['R·(1-(1-R)²)·R'], tags:['可靠性'], ref:'串联相乘、并联 1-(1-R)ⁿ；中间两部件并联得 1-(1-R)²，再与两端串联相乘。' }
+]},
+{ id:'g2', name:'数据结构与算法基础', icon:'🧮', questions:[
+  { q:'根据树的性质计算可得 ⟦x = 38⟧（本题考查树的性质，利用结点数与度数的关系列方程求解）。',
+    b:['x = 38'], tags:['树'], ref:'树的性质：总结点数 = 各度数结点数之和，边数 = 结点数 - 1。' },
+  { q:'某工程网络图共有 ⟦4⟧ 条关键路径，关键路径总长度为 ⟦55⟧。',
+    b:['4','55'], tags:['关键路径'], ref:'解析：分别有 4 条这样的关键路径，总长度为 55。' },
+  { q:'一个软件项目的活动图（顶点表示里程碑、边上的数字表示完成该活动所需天数）中，关键路径是 ⟦时间最长⟧ 的路径，其关键路径长度为 ⟦58⟧；活动 ⟦C→F⟧ 一旦延期就会影响项目的进度。',
+    b:['时间最长','58','C→F'], tags:['关键路径','项目管理'], ref:'2022下半年真题：关键路径长度选 D(58)，延期影响进度的活动选 B(C→F)。' },
+  { q:'若某图的邻接表中表示边的表结点有 ⟦奇数个⟧，则该图 G 是 ⟦有向图⟧。',
+    b:['奇数个','有向图'], tags:['图','邻接表'], ref:'无向图每条边在两个顶点各出现一次，边表结点必为偶数；奇数个说明是有向图。' },
+  { q:'线性表采用链式存储结构的特点是：插入和删除操作 ⟦不需要移动元素⟧，且 ⟦无须事先估计存储空间大小⟧。',
+    b:['不需要移动元素','无须事先估计存储空间大小'], tags:['线性表','链式存储'], ref:'注意："所需空间大小与表长成正比"不是链式存储特有的优点（顺序表也一样），是干扰项。' },
+  { q:'归并排序算法采用了 ⟦分治⟧ 算法设计策略；归并排序没有好坏之分，其最好、最坏、平均情况下的时间复杂度都是 ⟦O(nlog₂n)⟧。',
+    b:['分治','O(nlog₂n)'], tags:['排序','分治'], ref:'归并排序无论数据初始状态如何，时间复杂度都是 O(nlogn)。' },
+  { q:'在有序数组中实现折半（二分）查找的时间复杂度是 ⟦O(log₂n)⟧；利用大小顶堆实现排序，每次重建堆的时间复杂度是 log₂n，n 个元素总的时间复杂度是 ⟦O(nlog₂n)⟧。',
+    b:['O(log₂n)','O(nlog₂n)'], tags:['算法效率'], ref:'折半查找 search(array,n,v) 找不到返回 -1；堆排序每次重建堆 log₂n，共 n 次。' },
+  { q:'判断是否包含指定子序列、LCS 最长公共子序列、钢管切割问题，若用动态规划法 ⟦自顶向下⟧ 求解，时间复杂度为 ⟦O(2ⁿ)⟧。',
+    b:['自顶向下','O(2ⁿ)'], tags:['算法效率','动态规划'], ref:'自顶向下（带备忘录的递归）若不优化会指数级膨胀 O(2ⁿ)。' },
+  { q:'常见时间复杂度由小到大（增长速度）的关系是：⟦对数 < 多项式（指数越小增长越慢）< 指数函数 < 阶乘⟧，即 lgn < n < n² < 2ⁿ < n!，重点理解记忆倒数三个。',
+    b:['对数 < 多项式（指数越小增长越慢）< 指数函数 < 阶乘'], tags:['算法效率','渐进复杂度'], ref:'宝宝专属笔记：常数系数（如 1000n 的 1000）在渐进分析里直接忽略。' },
+  { q:'采用贪心算法能够保证求得最优解的问题是 ⟦部分（分数）背包⟧ 问题。',
+    b:['部分（分数）背包'], tags:['贪心','背包'], ref:'0-1背包、矩阵链乘、最长公共子序列要用动态规划；只有部分(分数)背包用贪心可得最优。' },
+  { q:'在数据结构中，矩阵通常用 ⟦二维数组⟧ 来存储（本题考查矩阵与数组的存储结构）。',
+    b:['二维数组'], tags:['矩阵','数组'], ref:'特殊矩阵（对称矩阵、三角矩阵、稀疏矩阵）常压缩存储到一维数组以节省空间。' }
+]},
+{ id:'g3', name:'算法设计策略', icon:'🎯', questions:[
+  { q:'分治法：把一个问题拆分成多个小规模的相同子问题，一般用 ⟦递归⟧ 解决，也可用循环；关键词是 ⟦一分为二、一一合二⟧；经典问题有 ⟦归并排序、快速排序、矩阵乘法、二分搜索、斐波那契数列、大整数乘法、汉诺塔⟧。',
+    b:['递归','一分为二、一一合二','归并排序、快速排序、矩阵乘法、二分搜索、斐波那契数列、大整数乘法、汉诺塔'], tags:['分治'], ref:'注意：不要陷入递归调用的证明，直接调用下层即可。' },
+  { q:'贪心法：一般用于求 ⟦满意解⟧；特征是 ⟦局部最优，但整体不见得最优⟧，每步有明确的、既定的策略；经典问题有 ⟦最小生成树（普里姆、克鲁斯卡尔）、背包问题（如装箱）、活动场地安排、多机调度、找零钱⟧。',
+    b:['满意解','局部最优，但整体不见得最优','最小生成树（普里姆、克鲁斯卡尔）、背包问题（如装箱）、活动场地安排、多机调度、找零钱'], tags:['贪心'], ref:'关键词：某一刻按照某个标准找到合适的就行；最后解可能最优也可能不是。' },
+  { q:'动态规划法：用于求 ⟦最优解⟧，依据是 ⟦最优子结构⟧ 和递归式；特征是划分子问题、⟦使用数组存储子问题结果⟧、利用查询子问题结果构造最终结果；经典问题有 ⟦矩阵乘法、背包问题、LCS 最长公共子序列⟧；关键词：最优子结构、动态规划、子规模。',
+    b:['最优解','最优子结构','使用数组存储子问题结果','矩阵乘法、背包问题、LCS 最长公共子序列'], tags:['动态规划'], ref:'不要陷入递归调用和查表操作，直接用即可。' },
+  { q:'回溯法：特征是 ⟦系统地搜索一个问题的所有解或任一解⟧；经典问题有 ⟦N 皇后问题、图的遍历、迷宫、背包问题⟧；关键词是 ⟦冲突、返回⟧。',
+    b:['系统地搜索一个问题的所有解或任一解','N 皇后问题、图的遍历、迷宫、背包问题','冲突、返回'], tags:['回溯'], ref:'遇到冲突就回退（返回），继续搜索其它分支。' }
+]},
+{ id:'g4', name:'软件工程', icon:'🛠️', questions:[
+  { q:'V 模型中测试与开发的对应关系：⟦单元测试⟧ 对应详细设计/编码，⟦集成测试⟧ 对应概要设计，⟦系统测试⟧ 对应需求规格说明，⟦验收测试⟧ 对应需求分析。',
+    b:['单元测试','集成测试','系统测试','验收测试'], tags:['软件测试','V模型'], ref:'根据 V 模型图示展开：左边是开发（需求→概要→详细→编码），右边是测试（单元→集成→系统→验收）。' },
+  { q:'瀑布模型的主要特点是 ⟦缺乏灵活性⟧。它按需求分析、设计、编码、测试和交付的顺序进行，每个阶段都有明确任务和输出；一旦要回溯到之前的阶段重新设计编码测试，会带来成本和时间上的巨大开销。',
+    b:['缺乏灵活性'], tags:['开发模型','瀑布'], ref:'严格线性、阶段间依赖强，难以应对需求变化，所以"缺乏灵活性"。' },
+  { q:'关于螺旋模型，不正确的说法是 ⟦基于该模型进行软件开发，开发成本低⟧。螺旋模型的特点是：支持用户需求的 ⟦动态变化⟧、要求开发人员具有 ⟦风险分析⟧ 能力、将开发过程划分为几个螺旋周期、每个周期大致和瀑布模型相符合。',
+    b:['基于该模型进行软件开发，开发成本低','动态变化','风险分析'], tags:['开发模型','螺旋'], ref:'螺旋模型强调风险分析，成本较高，所以"开发成本低"是错误说法。' },
+  { q:'关于加工规格说明，不正确的说法是 ⟦加工规格说明应该采用实现软件的程序设计语言来描述以提高开发效率⟧。正确的是：对每一个基本加工必须有一个加工规格说明；加工规格说明必须描述把输入数据流变换为输出数据流的加工规则。',
+    b:['加工规格说明应该采用实现软件的程序设计语言来描述以提高开发效率'], tags:['需求分析','加工规格说明'], ref:'加工规格说明用什么写都可以（结构化语言/判定表/判定树），不要求用程序设计语言。' },
+  { q:'关于模块独立原则，不正确的说法是 ⟦模块规模越小越好⟧。正确做法：将系统划分为相对独立的模块，模块之间做到 ⟦高内聚、低耦合⟧，模块的扇入系数和扇出系数要 ⟦合理⟧。',
+    b:['模块规模越小越好','高内聚、低耦合','合理'], tags:['软件设计','模块化'], ref:'模块不是越小越好，过度拆分反而增加接口复杂度；要适度。' },
+  { q:'为了改进应用软件的可靠性和可维护性，并适应未来软硬件环境变化而主动增加预防性新功能的维护属于 ⟦预防性⟧ 维护；对系统性能进行完善属于 ⟦完善性⟧ 维护；出错才改正属于 ⟦改正性⟧ 维护；为适应环境变化而修改属于 ⟦适应性⟧ 维护。',
+    b:['预防性','完善性','改正性','适应性'], tags:['软件维护'], ref:'四类维护：改正性(出错才改)、适应性(适应环境)、完善性(完善性能/功能)、预防性(主动预防)。' },
+  { q:'在进行风险监测时，其目的不包括 ⟦消除风险⟧。风险监测的目的是：评估所预测的风险是否发生、保证正确实施了风险缓解步骤、收集用于后续进行风险分析的信息。',
+    b:['消除风险'], tags:['项目管理','风险'], ref:'风险只能降低、无法彻底消除，所以"消除风险"不是风险监测的目的。' }
+]},
+{ id:'g5', name:'面向对象与 UML', icon:'🧩', questions:[
+  { q:'UML 类图给出软件系统的一种静态设计视图，用 ⟦泛化⟧ 关系可明确表示两类事物之间存在的特殊/一般关系。',
+    b:['泛化'], tags:['UML','关系'], ref:'聚合＝整体与部分、生命周期不同（属关联关系）；依赖＝一个事物变化影响另一个事物；泛化＝特殊/一般关系；实现＝接口与类。' },
+  { q:'面向对象测试分为四个层次执行：⟦算法层⟧（测试类中的每个方法）、⟦类层⟧（测试同一个类中方法与属性的相互作用）、⟦模版层⟧（测试一组协同工作的类）、⟦系统层⟧（把各个子系统组装成完整的面向对象软件系统进行测试）。',
+    b:['算法层','类层','模版层','系统层'], tags:['面向对象','测试'], ref:'由小到大：算法层→类层→模版层→系统层。' },
+  { q:'对于面向对象的设计，继承可分为 ⟦多重继承⟧（多个父类）和 ⟦单重继承⟧（一个父类）；而 ⟦分布式继承⟧ 不是面向对象体现的继承类型。',
+    b:['多重继承','单重继承','分布式继承'], tags:['面向对象','继承'], ref:'本题考查面向对象基础：分布式继承不属于面向对象的继承类型。' },
+  { q:'进行面向对象系统设计时，若存在包 A 依赖于包 B、包 B 依赖于包 C、包 C 依赖于包 A，则此设计违反了 ⟦无环依赖⟧ 原则。',
+    b:['无环依赖'], tags:['面向对象','设计原则'], ref:'包之间形成依赖环 → 直接违反无环依赖原则；稳定抽象原则强调包的抽象程度与稳定程度一致。' }
+]},
+{ id:'g6', name:'设计模式', icon:'🏗️', questions:[
+  { q:'设计某购物中心收银软件，要求能支持不同时期推出打折、返利、满减等不同促销活动，适合采用 ⟦策略（Strategy）⟧ 模式（正如不同的序列需要选择不同的排序算法）。',
+    b:['策略（Strategy）'], tags:['设计模式','策略'], ref:'策略模式：定义一系列算法并封装，使它们可互相替换，按需选择不同促销策略。' },
+  { q:'某股票交易系统采用命令（Command）模式，其中声明执行操作接口（含 execute() 抽象方法）的是 ⟦Operation⟧；该模式属于 ⟦行为型对象⟧ 模式；该模式适用于 ⟦抽象出待执行的动作以参数化某对象⟧。',
+    b:['Operation','行为型对象','抽象出待执行的动作以参数化某对象'], tags:['设计模式','命令'], ref:'命令模式角色：Operation(抽象命令)、BuyOperation/SellOperation/ViewOperation(具体命令)、Broker(调用者)、Stock(接收者)、StockDemo(客户端)。' },
+  { q:'命令（Command）模式适用于：①抽象出待执行的动作以 ⟦参数化某对象⟧；②在不同时刻指定、排列和执行请求；③支持 ⟦取消操作⟧；④支持修改日志；⑤用构建在原语操作上的高层操作构造一个系统。',
+    b:['参数化某对象','取消操作'], tags:['设计模式','命令'], ref:'命令模式把一个请求(方法调用)封装成对象。' },
+  { q:'观察者（Observer）模式定义对象间的一种 ⟦一对多⟧ 的依赖关系，当一个对象状态改变时，所有依赖于它的对象都得到通知并自动更新（速记关键字：⟦联动⟧）。',
+    b:['一对多','联动'], tags:['设计模式','观察者'], ref:'行为型题解速记：观察者＝联动。' },
+  { q:'状态（State）模式允许一个对象在其 ⟦内部状态改变时改变行为⟧（速记关键字：状态变成类）。',
+    b:['内部状态改变时改变行为'], tags:['设计模式','状态'], ref:'状态模式把"状态"抽象成类。' },
+  { q:'中介者（Mediator）模式用一个中介对象封装一系列对象的交互，使各对象不需显式地相互调用，从而达到 ⟦低耦合⟧，还可独立改变对象间的交互（速记关键字：不直接引用）。',
+    b:['低耦合'], tags:['设计模式','中介者'], ref:'各对象不直接引用，通过中介者交互 → 降低耦合。' },
+  { q:'设计模式按目的分类：⟦创建型 5 个⟧（工厂方法、抽象工厂、原型、单例、构建器）、⟦结构型 7 个⟧（适配器、桥接、组合、装饰、外观、享元、代理）、⟦行为型 11 个⟧（解释器、模板方法、备忘录、职责链、观察者、命令、状态、迭代器、策略、中介者、访问者）。',
+    b:['创建型 5 个','结构型 7 个','行为型 11 个'], tags:['设计模式','分类'], ref:'纵向口诀"适桥组装外享代"记结构型7个；横向口诀"公司模姐"（工厂方法、适配器(类)、模板方法、解释器）是仅有的4个类模式。' }
+]},
+{ id:'g7', name:'数据库 · 网络 · 安全', icon:'🗄️', questions:[
+  { q:'在关系数据库中，⟦投影⟧ 是从关系中投影出某属性列；⟦选择⟧ 是选择某条件下的一条/多条元组记录；⟦笛卡儿积⟧ 是两表之间的乘积，新表属性列为两表之和、元组数为两表之乘积。',
+    b:['投影','选择','笛卡儿积'], tags:['数据库','关系运算'], ref:'本题考查数据库基础：投影选列、选择选行、笛卡儿积两表相乘。' },
+  { q:'在 SQL 中，用于收回（撤销）访问控制权限的操作是 ⟦REVOKE⟧；而 ⟦DROP⟧ 表示删除表（及其内部数据）。',
+    b:['REVOKE','DROP'], tags:['数据库','SQL'], ref:'REVOKE＝销权；GRANT＝授权；DROP＝删除表。' },
+  { q:'TCP 在传输数据段（segment）时，会为每个数据段分配一个唯一的序列号，这个序列号是基于 ⟦字节⟧ 的，而不是基于报文（用于可靠传输与重传）。',
+    b:['字节'], tags:['网络','TCP'], ref:'TCP 序列号按字节编号，保证可靠传输、按序重组与重传。' },
+  { q:'使用电子邮件客户端向服务器发送邮件使用的协议是 ⟦SMTP⟧（邮件传输协议）；收取邮件用 ⟦POP3⟧（邮件收取协议）。',
+    b:['SMTP','POP3'], tags:['网络','协议'], ref:'SMTP＝发邮件；POP3＝收邮件；IMAP4＝交互式邮件访问。' },
+  { q:'下列算法中属于 Hash（摘要）算法的是 ⟦SHA⟧。加密算法分类：对称加密算法有 ⟦DES、3DES、AES⟧；非对称加密算法有 ⟦RSA、ECC⟧；摘要算法有 ⟦SHA、MD5⟧。',
+    b:['SHA','DES、3DES、AES','RSA、ECC','SHA、MD5'], tags:['信息安全','加密'], ref:'SHA 密钥长度较长，安全性高于 MD5；DES/AES 是加密不是摘要。' },
+  { q:'为 IP 数据报文进行加密，通常在 ⟦网络层⟧ 使用 ⟦IPSec⟧ 来实现；而在数据链路层常用 ⟦PPTP / L2TP⟧。',
+    b:['网络层','IPSec','PPTP / L2TP'], tags:['网络','安全'], ref:'分层加密：网络层→IPSec，数据链路层→PPTP/L2TP，传输层→TLS，应用层→HTTPS。' }
+]},
+{ id:'g8', name:'程序设计语言', icon:'✍️', questions:[
+  { q:'后缀式（逆波兰式）是把运算符写在运算对象之后，其运算规则是运算符的优先级和结合性 ⟦遵循惯例⟧（无需括号即可唯一确定运算顺序）。',
+    b:['遵循惯例'], tags:['程序语言','后缀式'], ref:'本题考查程序设计语言后缀式：后缀式无括号，按运算符出现顺序计算。' },
+  { q:'与直接运行编译后的机器码相比，通过解释器运行程序的速度 ⟦更慢⟧。编译型语言（如 C）直接编译成机器码在硬件上执行；解释型语言（如 Python、Ruby）的源代码需要解释器一行一行地读取、分析和执行，所以通常更慢。',
+    b:['更慢'], tags:['程序语言','编译/解释'], ref:'解释执行逐行翻译，效率低于直接执行机器码；但解释型语言跨平台能力更好。' },
+  { q:'在程序设计语言中，将 ⟦浮点类型数据与字符串类型数据相加⟧ 属于动态语义错误；而关键词（或保留字）拼写错误属于 ⟦语法错误⟧。',
+    b:['浮点类型数据与字符串类型数据相加','语法错误'], tags:['程序语言','错误分类'], ref:'语法错误（拼写）→静态语义错误（类型不匹配但可查出）→动态语义错误（运行时才暴露，如类型相加、除零）。' },
+  { q:'Python 中可变的数据类型有 ⟦dict（字典）⟧ 和 ⟦set（集合）⟧（此外还有 list 列表）；而 int、float、str、tuple 是不可变类型。',
+    b:['dict（字典）','set（集合）'], tags:['Python','数据类型'], ref:'本题考查 Python 数据类型：dict、set、list 可变；数字、字符串、元组不可变。' },
+  { q:'进程是系统进行 ⟦资源分配⟧ 的基本单位，线程是 CPU 调度的基本单位。同一进程中的多个线程 ⟦共享⟧ 内存地址空间、代码、数据和文件等，但各自拥有独立的 ⟦程序计数器⟧ 和 ⟦寄存器⟧。',
+    b:['资源分配','共享','程序计数器','寄存器'], tags:['操作系统','进程线程'], ref:'进程管理：线程共享进程的资源（地址空间/代码/数据/文件），私有程序计数器、寄存器、栈。' }
+]},
+{ id:'g9', name:'代码填空技巧', icon:'💡', questions:[
+  { q:'代码填空的常见技巧：①仔细看；②编程经验；③⟦给变量代入数据，尝试在脑海中运行程序⟧。解题关键是仔细检查所有用到的变量（例如循环变量 j 是否有初始赋值）。',
+    b:['给变量代入数据，尝试在脑海中运行程序'], tags:['代码填空','技巧'], ref:'例：int main(){ int i, j, count=1; ... } —— 注意检查此处是否缺少 j 的初始赋值。' },
+  { q:'代码填空时要仔细观察、对比 ⟦代码说明⟧ 和代码，找到得分点（如 temp=( )、tempCost=temp、cost[i][j]=tempCost，以及缺少的 trace[][] 记录）。',
+    b:['代码说明'], tags:['代码填空','技巧'], ref:'题干给的代码说明/注释往往就是得分点的提示。' },
+  { q:'代码填空时，一些变量名有特殊含义：一般用 ⟦max / min⟧ 保存最大值 / 最小值；当 if(max < c[i][j]) 成立时要修改 max 值，并用 ⟦maxi = i、maxj = j⟧ 记录最大值所在的下标。',
+    b:['max / min','maxi = i、maxj = j'], tags:['代码填空','技巧'], ref:'temp 常作中间变量做数值交换；maxi/maxj 记录最大值的下标位置。' },
+  { q:'KMP 模式匹配算法用 ⟦next 数组⟧ 对匹配过程进行优化。匹配时：如果 j=-1 或 t[i]=s[j]，则将 i 和 j 分别加 1 继续比较下一字符；否则将 j 向右滑动到 ⟦next[j]⟧ 的位置，即 j=next[j]；匹配失败返回 ⟦-1⟧。',
+    b:['next 数组','next[j]','-1'], tags:['代码填空','KMP'], ref:'模式匹配＝在主串 t 中找子串 s，成功返回 s 在 t 中的位置，否则返回 -1。' },
+  { q:'代码填空要仔细对比 ⟦题干公式⟧ 和代码找到得分点，例如 LCS 最长公共子序列的递归式条件与结果（if(max<c[i][j]){ maxj=j; maxi=i; } 处缺少递归式条件与结果）。',
+    b:['题干公式'], tags:['代码填空','技巧'], ref:'把题干给出的递归式/公式对照代码，缺什么补什么。' }
+]}
+];
+</script>
+
+<script>
+/* ================ 工具 ================ */
+var $=function(s){return document.querySelector(s)};
+var $$=function(s){return document.querySelectorAll(s)};
+var store={
+  get:function(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)); return (v===null||v===undefined)?d:v; }catch(e){ return d; } },
+  set:function(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+};
+var esc=function(s){ return String(s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+
+/* ================ 漂浮爱心 ================ */
+(function(){
+  var box=$('#hearts'), icons=['❤','💗','🧡','💛','💖'];
+  for(var i=0;i<14;i++){
+    var s=document.createElement('span');
+    s.textContent=icons[i%icons.length];
+    s.style.left=(Math.random()*100)+'%';
+    s.style.fontSize=(10+Math.random()*16)+'px';
+    var d=9+Math.random()*11;
+    s.style.animationDuration=d+'s';
+    s.style.animationDelay=(-Math.random()*d)+'s';
+    box.appendChild(s);
+  }
+})();
+
+/* ================ 倒计时 ================ */
+(function(){
+  var exam=new Date((window.EXAM_DATE||'2026-10-24')+'T00:00:00');
+  $('#examDate').textContent=window.EXAM_DATE||'2026-10-24';
+  var now=new Date(); now.setHours(0,0,0,0);
+  var d=Math.round((exam-now)/86400000);
+  $('#dDay').textContent=(d>=0)?d:'已考';
+})();
+
+/* ================ 渲染内容 ================ */
+var DATA=window.DATA||[];
+var qSeq=0;
+function renderBlank(q){
+  return esc(q).replace(/⟦(.+?)⟧/g,function(m,g1){ return '<span class="blank" data-ans="'+esc(g1)+'">'+esc(g1)+'</span>'; });
+}
+function render(){
+  var toc=$('#toc'), content=$('#content'), total=0;
+  DATA.forEach(function(g){ total+=g.questions.length; });
+  $('#totalQ').textContent=total;
+  $('#totalG').textContent=DATA.length;
+
+  toc.innerHTML=DATA.map(function(g){
+    return '<a href="#'+g.id+'">'+g.icon+' '+esc(g.name)+'<span class="n">'+g.questions.length+'</span></a>';
+  }).join('');
+
+  content.innerHTML=DATA.map(function(g){
+    var cards=g.questions.map(function(q){
+      qSeq++;
+      var tags=(q.tags||[]).map(function(t){ return '<span class="tag">'+esc(t)+'</span>'; }).join('');
+      var ansWords=(q.b||[]).map(function(w){ return '<span class="blank" data-ans="'+esc(w)+'">'+esc(w)+'</span>'; }).join(' ');
+      var ref=q.ref?'<details class="ref"><summary>参考解析 / 记忆补充</summary><div class="ref-body">'+esc(q.ref)+'</div></details>':'';
+      var ansLine=(q.b&&q.b.length)?'<div class="ansline">🔑 <span class="ok">答案</span>：'+ansWords+'</div>':'';
+      var hay=(g.name+' '+q.q+' '+(q.tags||[]).join(' ')+' '+(q.ref||'')).toLowerCase();
+      return '<article class="card" data-search="'+esc(hay)+'">'+
+        '<div class="q-top">'+
+          '<span class="q-num">'+('0'+qSeq).slice(-2)+'</span>'+
+          '<div class="q-text">'+renderBlank(q.q)+'</div>'+
+          '<div class="q-actions">'+
+            '<button class="mini recite" title="遮住/显示这条答案">遮</button>'+
+            '<button class="mini hl-btn" title="荧光笔划重点">✎</button>'+
+          '</div>'+
+        '</div>'+
+        ansLine+ref+
+        (tags?'<div class="tags">'+tags+'</div>':'')+
+      '</article>';
+    }).join('');
+    return '<section class="group" id="'+g.id+'">'+
+      '<div class="group-head"><span class="emoji">'+g.icon+'</span><h2>'+esc(g.name)+'</h2>'+
+      '<span class="cnt">'+g.questions.length+' 条</span><span class="line"></span></div>'+
+      cards+'</section>';
+  }).join('');
+}
+render();
+
+/* ================ 背诵模式 ================ */
+var recite=store.get('recite',false);
+function applyRecite(){
+  document.body.classList.toggle('recite',recite);
+  $('#btnRecite').textContent=recite?'🙉 背诵模式：开':'🙈 背诵模式：关';
+  $('#btnRecite').classList.toggle('on',recite);
+  store.set('recite',recite);
+}
+$('#btnRecite').onclick=function(){ recite=!recite; applyRecite(); };
+applyRecite();
+
+/* 单条遮罩 + 荧光笔 */
+var hlColors=['hl','pink','green'], hlIdx=0;
+document.addEventListener('click',function(e){
+  var t=e.target;
+  if(t.classList.contains('mini')&&t.classList.contains('recite')){
+    var card=t.closest('.card');
+    card.classList.toggle('hidden-by-me');
+    t.classList.toggle('on');
+  }
+  if(t.classList.contains('hl-btn')){
+    var sel=window.getSelection();
+    if(!sel||sel.isCollapsed){ alert('先用鼠标选中要划重点的文字，再点 ✎ 哦～'); return; }
+    try{
+      var range=sel.getRangeAt(0);
+      var mark=document.createElement('mark');
+      mark.className='hl '+hlColors[hlIdx%3]; hlIdx++;
+      range.surroundContents(mark);
+      sel.removeAllRanges();
+    }catch(err){
+      var qt=t.closest('.card').querySelector('.q-text');
+      qt.classList.toggle('hl');
+    }
+  }
+});
+
+/* ================ 展开/收起解析 ================ */
+var expanded=false;
+$('#btnExpand').onclick=function(){
+  expanded=!expanded;
+  var list=$$('details.ref');
+  for(var i=0;i<list.length;i++){ list[i].open=expanded; }
+  $('#btnExpand').textContent=expanded?'📕 收起全部解析':'📖 全部展开解析';
+};
+
+/* ================ 搜索过滤 ================ */
+$('#search').addEventListener('input',function(e){
+  var kw=e.target.value.trim().toLowerCase();
+  var any=false;
+  var cards=$$('.card');
+  for(var i=0;i<cards.length;i++){
+    var hit=!kw||cards[i].getAttribute('data-search').indexOf(kw)>=0;
+    cards[i].style.display=hit?'':'none';
+    if(hit)any=true;
+  }
+  var groups=$$('.group');
+  for(var j=0;j<groups.length;j++){
+    var cs=groups[j].querySelectorAll('.card'), vis=false;
+    for(var k=0;k<cs.length;k++){ if(cs[k].style.display!=='none'){ vis=true; break; } }
+    groups[j].style.display=vis?'':'none';
+  }
+  $('#empty').style.display=any?'none':'block';
+});
+
+/* ================ 打卡 ================ */
+function pad(n){ return (n<10?'0':'')+n; }
+function keyOf(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function todayStr(){ return keyOf(new Date()); }
+function buildCheck(){
+  var done=store.get('checkins',[]);
+  var grid=$('#checkGrid'); grid.innerHTML='';
+  var today=new Date();
+  for(var i=27;i>=0;i--){
+    var d=new Date(today); d.setDate(today.getDate()-i);
+    var key=keyOf(d);
+    var cell=document.createElement('div');
+    cell.className='day'+((done.indexOf(key)>=0)?' done':'')+((key===todayStr())?' today':'');
+    cell.textContent=d.getDate(); cell.title=key;
+    cell.setAttribute('data-key',key);
+    cell.onclick=function(){
+      var k=this.getAttribute('data-key');
+      var arr=store.get('checkins',[]);
+      var idx=arr.indexOf(k);
+      if(idx>=0){ arr.splice(idx,1); } else { arr.push(k); }
+      store.set('checkins',arr); buildCheck();
+    };
+    grid.appendChild(cell);
+  }
+  $('#doneCount').textContent=done.length;
+}
+$('#btnCheck').onclick=function(){ buildCheck(); $('#checkModal').classList.add('show'); };
+$('#btnCloseModal').onclick=function(){ $('#checkModal').classList.remove('show'); };
+$('#checkModal').addEventListener('click',function(e){ if(e.target.id==='checkModal'){ e.target.classList.remove('show'); } });
+
+/* ================ 回到顶部 ================ */
+$('#fabTop').onclick=function(){ window.scrollTo({top:0,behavior:'smooth'}); };
+window.addEventListener('scroll',function(){
+  $('#fabTop').style.opacity=(window.scrollY>300)?'1':'0.4';
+});
+</script>
+</body>
+</html>
